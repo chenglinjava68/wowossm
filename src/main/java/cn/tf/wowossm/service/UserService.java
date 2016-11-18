@@ -8,4 +8,6 @@ public interface UserService {
 
 	Userinfo login(Userinfo user);
 
+	boolean activeUser(Integer usId);
+
 }

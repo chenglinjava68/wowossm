@@ -133,9 +133,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.tf.wowossm.po.Userinfo">
+  <insert id="insert" parameterType="cn.tf.wowossm.po.Userinfo"  >
      <selectKey keyProperty="usid" order="BEFORE" resultType="long">
-    	select seq_usid .nextval from dual
+    	select seq_usid.nextval from dual
     </selectKey>
       
     insert into USERINFO (USID, EMAIL, UNAME, 
@@ -435,5 +435,11 @@
       FLAG = #{flag,jdbcType=VARCHAR}
     where USID = #{usid,jdbcType=DECIMAL}
   </update>
+  
+  <update id="updateUserStatus"  parameterType="int">
+      update userinfo set status=1 where usId=#{usId}
+      
+  </update>
+  
   
 </mapper>
