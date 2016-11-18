@@ -3,10 +3,13 @@ package cn.tf.wowossm.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import redis.clients.jedis.Jedis;
+import cn.tf.wowossm.dao.JedisClient;
 import cn.tf.wowossm.po.Userinfo;
 import cn.tf.wowossm.service.UserService;
 
@@ -16,6 +19,11 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private JedisClient jedisClient;
+	
+	
 	
 	@RequestMapping("/")
 	public String showIndex() {
@@ -71,7 +79,11 @@ public class UserController {
 	
 	@RequestMapping("/active/{usId}/{activeCode}")
 	public String active(@PathVariable("usId") Integer usId,@PathVariable("activeCode") String activeCode,HttpSession session){
-		Object srcActiveCode=session.getAttribute("activeCode");
+		
+		//从redis中取出来
+		String srcActiveCode=jedisClient.get("WOWO_ACTIVECODE_KEY:"+usId);
+		System.out.println(srcActiveCode);
+		//Object srcActiveCode=session.getAttribute("activeCode");
 		if(((String) srcActiveCode).intern()==activeCode.intern()){
 			if(userService.activeUser(usId)){
 				return "redirect:/page/login.html";
