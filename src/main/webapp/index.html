@@ -239,5 +239,36 @@
 <div id="ritCode">
   <div class="imgbox"> <a gae="click_apr_erweima" target="_blank" href="#"> <img width="108" height="183" src="images/ritcodeb.png"> </a> <a class="cCode" href="#">close</a> </div>
 </div>
+
+<div  style="background-color:red;width:100%;height:100px;position:absolute;top:40px;" id="myContent">
+	
+</div>
+<script  type="text/javascript"  src="js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+	var mytop=document.documentElement.clientHeight-100;
+	$("#myContent")[0].style.top=mytop+"px";
+	
+	onscroll=function(){
+		$("#myContent")[0].style.top=document.documentElement.scrollTop+mytop+"px";	
+	};
+	$("#myContent").hover(function(){
+		$(this).css("opacity",1)
+	},function(){
+		$(this).css("opacity",0.5)
+	});
+	
+	
+	
+	var ws=new WebSocket('ws://'+window.location.host+'/wowossm/websocket/goods');
+	ws.onmessage=function(msg){
+		var data=$.parseJSON(msg.data);
+		$("#myContent").append("<h1>"+data.content+"</h1>");
+		
+	}
+
+
+</script>
+
+
 </body>
 </html>

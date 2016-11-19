@@ -3,32 +3,39 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
-	<context:component-scan base-package="cn.tf.wowossm.controller"/>
- 	<mvc:annotation-driven/>
+	<context:component-scan base-package="cn.tf.wowossm.controller" />
+	<mvc:annotation-driven />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/page/"/>
-		<property name="suffix" value=".jsp"/>
-	</bean> 
-	
+		<property name="prefix" value="/page/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 
-	
-	
-	    <mvc:default-servlet-handler/>
-	<!-- <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
-	<mvc:resources  location="/WEB-INF/css/" mapping="/css/**"/> -->
-	
-	
+	<websocket:handlers>
+		<websocket:mapping path="/websocket/goods" handler="goodsHandler" />
+		<websocket:handshake-interceptors>
+			<bean
+				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers> 
+
+
+
+	<mvc:default-servlet-handler />
+	<!-- <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/> <mvc:resources 
+		location="/WEB-INF/css/" mapping="/css/**"/> -->
+
+
 	<!-- 拦截器配置 -->
-	<!-- <mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<bean class="cn.tf.taotao.interceptor.LoginInterceptor"></bean>
-		</mvc:interceptor>
-	</mvc:interceptors>  -->
-	
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**"/> <bean 
+		class="cn.tf.taotao.interceptor.LoginInterceptor"></bean> </mvc:interceptor> 
+		</mvc:interceptors> -->
+
 </beans>
